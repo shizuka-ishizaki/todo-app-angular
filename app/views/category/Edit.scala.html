@@ -1,0 +1,45 @@
+@*
+*
+* to do sample project
+*
+*@
+@import controllers.category.ToDoCategoryFormData
+@import lib.model.{ToDo, ToDoCategory}
+@import lib.model.ToDoCategory.CategoryColor
+@import model._
+@import helper._
+@(vv: model.ViewValueToDoCategoryEdit)(implicit requestHeader: RequestHeader, messagesPrivider: MessagesProvider)
+@implicitField = @{ FieldConstructor(FieldConstructorTemplate.f) }
+@common.Default(vv){
+  @form(action = controllers.category.routes.ToDoCategoryController.update(vv.id)) {
+    @* CSRFトークンの生成ヘルパーを呼び出している。これでいい感じにトークンが用意されます。 *@
+    @CSRF.formField
+    <div class="form">
+      <div class="form__item">
+        <div class="form__item-title">名前</div>
+        <div class="form__item-input">@inputText(vv.categoryForm("name"))</div>
+      </div>
+      <div class="form__item">
+        <div class="form__item-title">slug</div>
+        <div class="form__item-input">@inputText(vv.categoryForm("slug"))</div>
+      </div>
+      <div class="form__item">
+        <div class="form__item-title">Color</div>
+        <div class="form__item-select">
+          @select(
+            vv.categoryForm("color"),
+            options = CategoryColor.values.map {
+                enum => (enum.code.toString, enum.name)
+              }
+          )
+        </div>
+      </div>
+      <div class="footer">
+        <a class="footer_button-back" href="/category/list">
+          戻る
+        </a>
+        <input type="submit" class="footer_button-add" value="登録">
+      </div>
+    </div>
+  }
+}

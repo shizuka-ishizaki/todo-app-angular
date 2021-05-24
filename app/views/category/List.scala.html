@@ -1,0 +1,63 @@
+@*
+*
+* to do sample project
+*
+*@
+@import model._
+@import helper._
+@(vv:   model.ViewValueToDoCategoryList)(implicit requestHeader: RequestHeader, messagesPrivider: MessagesProvider, flash: Flash)
+@implicitField = @{ FieldConstructor(FieldConstructorTemplate.f) }
+@common.Default(vv){
+  <div class="content">
+    <p class="flash">@flash.get("success").getOrElse("")</p>
+    <div class="categoryContainer">
+      <div class="category">
+        <p class="name">名前</p>
+      </div>
+      <div class="category">
+        <p class="slug">slug</p>
+      </div>
+      <div class="category">
+        <p class="color">Color</p>
+      </div>
+    </div>
+
+    @for(category <- vv.categoryList) {
+      <div class="categoryContainer">
+        <div class="category">
+          <p class="name">@category.name</p>
+        </div>
+        <div class="category">
+          <p class="slug">@category.slug</p>
+        </div>
+        <div class="category">
+          <p class="color">@category.color.name</p>
+        </div>
+        <div class="category">
+          <p class="side">
+            <a class="category_icon"
+               href="@controllers.category.routes.ToDoCategoryController.edit(category.id)">
+              <i class="far fa-edit"></i>
+            </a>
+          </p>
+        </div>
+        <div class="category">
+            @form(action = controllers.category.routes.ToDoCategoryController.delete(category.id)) {
+              @CSRF.formField
+              <input type="hidden" value="@category.id" name="id">
+              <i class="far fa-trash-alt delete"></i>
+            }
+        </div>
+      </div>
+
+    }
+    <div class="footer">
+      <a class="footer_button-back" href="/">
+        戻る
+      </a>
+      <a class="footer_button-add" href="@controllers.category.routes.ToDoCategoryController.register()">
+        追加
+      </a>
+    </div>
+  </div>
+}

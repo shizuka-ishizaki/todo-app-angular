@@ -1,0 +1,21 @@
+@*
+ *
+ * to do sample project
+ *
+ *@
+
+@(vv: model.ViewValueCommon)
+@common.Default(vv){
+   <ul>
+    <li>
+      <a href="@controllers.todo.routes.ToDoController.list()">
+        ToDoリスト
+      </a>
+    </li>
+     <li>
+       <a href="@controllers.category.routes.ToDoCategoryController.list()">
+         ToDoカテゴリーリスト
+       </a>
+     </li>
+ </ul>
+}

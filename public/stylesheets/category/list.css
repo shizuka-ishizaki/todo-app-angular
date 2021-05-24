@@ -1,0 +1,44 @@
+/**　ToDoリスト画面 **/
+.content {
+  margin: 10px;
+}
+
+.flash{
+  color     : #0000ff;
+  font-size : 18px;
+}
+
+.categoryContainer {
+  display : flex;
+  height  : 30px;
+}
+.categoryContainer .category {
+  padding: 0px 10px;
+}
+
+.categoryContainer .category p {
+  padding : 0px;
+  margin  : 0px;
+}
+
+.category .name {
+  width           : 150px;
+  overflow        : hidden;
+  text-overflow   : ellipsis;
+  white-space     : nowrap;
+}
+
+.category .slug {
+  width           : 200px;
+  overflow        : hidden;
+  text-overflow   : ellipsis;
+  white-space     : nowrap;
+}
+
+.category .color {
+  width: 80px;
+}
+
+.category .far.fa-trash-alt {
+  cursor: pointer;
+}

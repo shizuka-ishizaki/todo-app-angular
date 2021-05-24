@@ -1,0 +1,44 @@
+@*
+*
+* to do sample project
+*
+*@
+@import controllers.todo.ToDoFormData
+@import lib.model.{ToDo, ToDoCategory}
+@import lib.model.ToDo.ToDoStatus
+@import model._
+@import helper._
+@(vv: model.ViewValueToDoAdd)(implicit requestHeader: RequestHeader, messagesPrivider: MessagesProvider)
+@implicitField = @{ FieldConstructor(FieldConstructorTemplate.f) }
+@common.Default(vv){
+  @form(action = controllers.todo.routes.ToDoController.add()) {
+    @* CSRFトークンの生成ヘルパーを呼び出している。これでいい感じにトークンが用意されます。 *@
+    @CSRF.formField
+    <div class="form">
+      <div class="form__item">
+        <div class="form__item-title">タイトル</div>
+        <div class="form__item-input">@inputText(vv.toDoForm("title"))</div>
+      </div>
+      <div class="form__item">
+        <div class="form__item-title">本文</div>
+        <div class="form__item-textarea">@textarea(vv.toDoForm("body"))</div>
+      </div>
+      <div class="form__item">
+        <div class="form__item-title">カテゴリ</div>
+        <div class="form__item-select">
+          @select(
+            vv.toDoForm("categoryId"),
+            options = vv.categorys,
+          )
+        </div>
+      </div>
+      <div class="footer">
+        <a class="footer_button-back" href="/todo/list">
+          戻る
+        </a>
+        <input type="submit" class="footer_button-add" value="登録">
+        <input type="hidden" value="@ToDoStatus.TODO.code.toString" name="status">
+      </div>
+    </div>
+  }
+}

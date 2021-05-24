@@ -1,0 +1,18 @@
+@*
+*
+* to do sample project
+*
+*@
+@import model._
+
+@(vv:   model.ViewValueError)
+@common.Default(vv){
+  <div class="error">
+    <h1>@vv.message</h1>
+    <div class="footer">
+      <a class="footer_button-back" href="@controllers.routes.HomeController.index()">
+        戻る
+      </a>
+    </div>
+  </div>
+}
