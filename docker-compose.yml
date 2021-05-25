@@ -8,7 +8,7 @@ services:
   # MySQL
   db:
     image: mysql:5.7
-    container_name: to_do_sample_container
+    container_name: todo_sample_container
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE:      to_do
@@ -22,3 +22,13 @@ services:
     - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
       - 33306:3306
+
+  play_angular:
+    build: ./docker/angular
+    ports:
+      - "5555:5555"
+    container_name: play_angular
+    volumes:
+      - ./:/source
+    working_dir: /source/ui
+    tty: true

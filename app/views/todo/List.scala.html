@@ -9,6 +9,9 @@
 @(vv:   model.ViewValueToDoList)(implicit requestHeader: RequestHeader, messagesPrivider: MessagesProvider, flash: Flash)
 @implicitField = @{ FieldConstructor(FieldConstructorTemplate.f) }
 @common.Default(vv){
+  <todo-list-elements>
+  </todo-list-elements>
+  <hr>
   <div class="content">
     <p class="flash">@flash.get("success").getOrElse("")</p>
     <div class="todoContainer">

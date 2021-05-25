@@ -1,0 +1,59 @@
+<p class="custom">{{ displayText }}</p>
+
+<div class="content">
+  <p class="flash">{{ flash }}</p>
+  <div class="todoContainer">
+    <div class="todo">
+      <p class="title">タイトル</p>
+    </div>
+    <div class="todo">
+      <p class="body">本文</p>
+    </div>
+    <div class="todo">
+      <p class="status">ステータス</p>
+    </div>
+    <div class="todo">
+      <p class="categoryName">カテゴリ</p>
+    </div>
+    <div class="todo">
+      <p class="edit"></p>
+    </div>
+  </div>
+
+  <div class="todoContainer">
+    <div class="todo">
+      <p class="title">{{ title }}</p>
+    </div>
+    <div class="todo">
+      <p class="body">{{ body }}</p>
+    </div>
+    <div class="todo">
+      <p class="status">{{ status }}</p>
+    </div>
+    <div class="todo">
+      <p class="categoryName">{{ categoryColor }}</p>
+    </div>
+    <div class="todo">
+      <p class="side">
+        <a class="todo_icon"
+           href={{editUrl}}>
+          <i class="far fa-edit"></i>
+        </a>
+      </p>
+    </div>
+    <div class="todo">
+      <p class="side">
+        <i class="far fa-trash-alt delete"></i>
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a class="footer_button-back" href="/">
+      戻る
+    </a>
+    <a class="footer_button-add" href="/todo/add">
+      追加
+    </a>
+  </div>
+</div>

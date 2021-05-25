@@ -19,6 +19,8 @@
     @* NotoSansとfont-awesomeを追加 *@
     <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css">
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    @* angular-elementsのcss読み込み *@
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/elements.css")">
   </head>
   <body>
     @* And here's where we render the `Html` object containing
@@ -28,8 +30,14 @@
     </header>
     <main class="main">
       <h1>@vv.title</h1>
+      @* angular-elementsのComponentを呼び出し *@
+      <app-root></app-root>
+      <hello-elements display-text="angular elements">
+      </hello-elements>
       @content
     </main>
+    @* angular-elementsのjs読み込み *@
+    <script src="@routes.Assets.versioned("javascripts/app-angular-es5.js")" type="text/javascript"></script>
     @for(js <- vv.jsSrc) {
       <script src="@{routes.Assets.versioned("javascripts/" + js)}" type="text/javascript"></script>
     }
