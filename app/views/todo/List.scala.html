@@ -9,69 +9,73 @@
 @(vv:   model.ViewValueToDoList)(implicit requestHeader: RequestHeader, messagesPrivider: MessagesProvider, flash: Flash)
 @implicitField = @{ FieldConstructor(FieldConstructorTemplate.f) }
 @common.Default(vv){
+
   <todo-list-elements>
   </todo-list-elements>
-  <hr>
-  <div class="content">
-    <p class="flash">@flash.get("success").getOrElse("")</p>
-    <div class="todoContainer">
-      <div class="todo">
-        <p class="title">タイトル</p>
-      </div>
-      <div class="todo">
-        <p class="body">本文</p>
-      </div>
-      <div class="todo">
-        <p class="status">ステータス</p>
-      </div>
-      <div class="todo">
-        <p class="categoryName">カテゴリ</p>
-      </div>
-      <div class="todo">
-        <p class="edit"></p>
-      </div>
-    </div>
 
-    @for(todo <- vv.toDoList) {
-      <div class="todoContainer">
-        <div class="todo">
-          <p class="title">@todo.title</p>
-        </div>
-        <div class="todo">
-          <p class="body">@todo.body</p>
-        </div>
-        <div class="todo">
-          <p class="status">@todo.status.name</p>
-        </div>
-        <div class="todo">
-          <p class="categoryName @todo.categoryColor.name">@todo.categoryName</p>
-        </div>
-        <div class="todo">
-          <p class="side">
-            <a class="todo_icon"
-               href="@controllers.todo.routes.ToDoController.edit(todo.id)">
-              <i class="far fa-edit"></i>
-            </a>
-          </p>
-        </div>
-        <div class="todo">
-          <p class="side">
-            @form(action = controllers.todo.routes.ToDoController.delete(todo.id)) {
-              @CSRF.formField
-              <input type="hidden" value="@todo.id" name="id">
-              <i class="far fa-trash-alt delete"></i>
-            }
-          </p>
-        </div>
-      </div>
-    }
-    <div class="footer">
-      <a class="footer_button-back" href="/">
-        戻る
-      </a>
-      <a class="footer_button-add" href="@controllers.todo.routes.ToDoController.register()">
-        追加
-      </a>
-    </div>
-  </div>
+  @*
+  *   ScalaのHTML
+  *   <div class="content">
+  *     <p class="flash">@flash.get("success").getOrElse("")</p>
+  *     <div class="todoContainer">
+  *       <div class="todo">
+  *       <p class="title">タイトル</p>
+  *       </div>
+  *       <div class="todo">
+  *         <p class="body">本文</p>
+  *       </div>
+  *       <div class="todo">
+  *         <p class="status">ステータス</p>
+  *       </div>
+  *       <div class="todo">
+  *         <p class="categoryName">カテゴリ</p>
+  *       </div>
+  *       <div class="todo">
+  *         <p class="edit"></p>
+  *       </div>
+  *     </div>
+  *
+  *   @for(todo <- vv.toDoList) {
+  *       <div class="todoContainer">
+  *         <div class="todo">
+  *           <p class="title">@todo.title</p>
+  *         </div>
+  *         <div class="todo">
+  *           <p class="body">@todo.body</p>
+  *         </div>
+  *         <div class="todo">
+  *           <p class="status">@todo.status.name</p>
+  *         </div>
+  *         <div class="todo">
+  *           <p class="categoryName @todo.categoryColor.name">@todo.categoryName</p>
+  *         </div>
+  *         <div class="todo">
+  *           <p class="side">
+  *             <a class="todo_icon"
+  *                href="@controllers.todo.routes.ToDoController.edit(todo.id)">
+  *               <i class="far fa-edit"></i>
+  *             </a>
+  *           </p>
+  *         </div>
+  *         <div class="todo">
+  *           <p class="side">
+  *             @form(action = controllers.todo.routes.ToDoController.delete(todo.id)) {
+  *               @CSRF.formField
+  *               <input type="hidden" value="@todo.id" name="id">
+  *               <i class="far fa-trash-alt delete"></i>
+  *             }
+  *           </p>
+  *         </div>
+  *       </div>
+  *     }
+  *     <div class="footer">
+  *       <a class="footer_button-back" href="/">
+  *         戻る
+  *       </a>
+  *       <a class="footer_button-add" href="@controllers.todo.routes.ToDoController.register()">
+  *         追加
+  *       </a>
+  *     </div>
+  *   </div>
+  *@
 }

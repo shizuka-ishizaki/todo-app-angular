@@ -29,3 +29,11 @@ GET     /category/$id<[0-9]+>/edit      controllers.category.ToDoCategoryControl
 POST    /category/$id<[0-9]+>/update    controllers.category.ToDoCategoryController.update(id: Long)
 
 POST    /category/delete                controllers.category.ToDoCategoryController.delete(id: Long)
+
+
+# API
+GET     /todo/api/v1/todo/list          controllers.todo.ToDoController.listApi
+POST    /todo/api/v1/todo/delete        controllers.todo.ToDoController.deleteApi
+
+GET     /todo/api/v1/todo/category_list             controllers.todo.ToDoController.categoryList
+POST    /todo/api/v1/todo/add                       controllers.todo.ToDoController.addApi

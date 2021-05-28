@@ -107,7 +107,13 @@ body {
   font-size       : 12px;
   text-decoration : none;
 }
+
 .footer .footer_button-add:hover {
   color         : #ffffff;     /* 背景色     */
   background    : #000000;     /* 文字色     */
+}
+
+.footer .footer_button-add:disabled {
+  color         : #cccccc;     /* 背景色     */
+  background    : #7f7f7f;     /* 文字色     */
 }

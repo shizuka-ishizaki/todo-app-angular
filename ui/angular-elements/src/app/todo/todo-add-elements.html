@@ -1,0 +1,41 @@
+<p class="flash">{{flash}}</p>
+<p class="error">{{error}}</p>
+<form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todo-form">
+  <div class="form-field">
+    <label class="field-label">タイトル</label>
+    <input class="title" type="text" [formControl]="title" required/>
+    <div *ngIf="title.invalid && (title.dirty || title.touched)">
+      <span *ngIf="title.hasError('required')">必須です。</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label class="field-label">本文</label>
+    <textarea class="body" [formControl]="body" required ></textarea>
+    <div *ngIf="body.invalid && (body.dirty || body.touched)">
+      <span *ngIf="body.hasError('required')">必須です。</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label class="field-label">カテゴリ</label>
+    <div  class="category">
+      <select required [formControl]="category">
+        <option value="" disabled selected>Select the category</option>
+        <option *ngFor="let category of categorys" [ngValue]="category.id">
+          {{category.name}}</option>
+      </select>
+      <div *ngIf="category.invalid && (category.dirty || category.touched)">
+        <span *ngIf="category.hasError('required')">必須です。</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a class="footer_button-back" href="/todo/list">
+      戻る
+    </a>
+    <input type="submit" class="footer_button-add" [disabled]="!todoForm.valid" value="登録">
+  </div>
+</form>
+

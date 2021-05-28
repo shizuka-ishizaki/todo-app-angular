@@ -6,20 +6,22 @@
 
 package controllers.todo
 
-import javax.inject._
+import json.writes.{JsValueWritesToDoWithCategory, JsValueWritesApiResult, JsValueWritesCategoryList}
+import json.reads.{JsValueReadsToDoId, JsValueReadsToDoAdd}
+import lib.model.{ToDo, ToDoCategory}
+import lib.model.ToDo.ToDoStatus
+import lib.model.ToDoCategory.CategoryColor
+import lib.persistence.default.{ToDoCategoryRepository, ToDoRepository}
+import model._
 import play.api.mvc._
-import play.api.Configuration
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.I18nSupport
-import scala.concurrent.Future
+import play.api.libs.json._
+
+import javax.inject._
 import scala.concurrent.ExecutionContext.Implicits.global
-import lib.persistence.default.{ToDoRepository, ToDoCategoryRepository}
-import model.{ViewValueToDoList, ToDoWithCategory, ViewValueToDoAdd, ViewValueToDoEdit, ViewValueError}
-import lib.model.ToDo
-import lib.model.ToDo.ToDoStatus
-import lib.model.ToDoCategory
-import lib.model.ToDoCategory.CategoryColor
+
 
 /**
  * 追加・更新用Form
@@ -55,6 +57,7 @@ class ToDoController @Inject()(val controllerComponents: ControllerComponents)
       todoSeq <- ToDoRepository.all()
       categorySeq <- ToDoCategoryRepository.all()
     } yield {
+
       val todoList = todoSeq.map { todo =>
         val category = categorySeq.find(c => c.id == todo.v.categoryId)
         ToDoWithCategory(
@@ -69,7 +72,7 @@ class ToDoController @Inject()(val controllerComponents: ControllerComponents)
       }
       val vv = ViewValueToDoList(
         title    = "ToDoリスト",
-        cssSrc   = Seq("main.css", "todo/list.css"),
+        cssSrc   = Seq("main.css"),
         jsSrc    = Seq("main.js",  "todo/list.js"),
         toDoList = todoList
       )
@@ -265,6 +268,87 @@ class ToDoController @Inject()(val controllerComponents: ControllerComponents)
           Redirect(routes.ToDoController.list())
             .flashing("success" -> "ToDoを削除しました!")
       }
+    }
+  }
+
+  // API
+  /**
+   * ToDo一覧画面の表示用
+   */
+  def listApi() = Action async {implicit request: Request[AnyContent] =>
+    for {
+      todoSeq <- ToDoRepository.all()
+      categorySeq <- ToDoCategoryRepository.all()
+    } yield {
+      val todoList = todoSeq.map { todo =>
+        JsValueWritesToDoWithCategory(
+          todo.id.toString,
+          todo.v.categoryId.toString,
+          todo.v.title,
+          todo.v.body,
+          todo.v.status.name,
+          categorySeq.collectFirst{case i if i.id == todo.v.categoryId => i.v.name}.getOrElse(""),
+          categorySeq.collectFirst{case i if i.id == todo.v.categoryId => i.v.color.name}.getOrElse(CategoryColor.NONE.name),
+          "/todo/" + todo.id.toString + "/edit"
+        )
+      }
+      Ok(Json.toJson(todoList))
+    }
+  }
+
+  /**
+   * 削除処理
+   */
+  def deleteApi() = Action async {implicit request =>
+   val jsonId = request.body.asJson.get.validate[JsValueReadsToDoId].get
+
+    for {
+      result <- ToDoRepository.remove(ToDo.Id(jsonId.id.toLong))
+    } yield {
+      result match {
+        case None     =>
+          Ok(Json.toJson(JsValueWritesApiResult(isSuccess = false)))
+        case Some(_)  =>
+          Ok(Json.toJson(JsValueWritesApiResult(isSuccess = true)))
+      }
+    }
+  }
+
+  /**
+   * カテゴリ一覧取得
+   */
+  def categoryList() = Action async {implicit request: Request[AnyContent] =>
+    for {
+      categorySeq <- ToDoCategoryRepository.all()
+    } yield {
+      val list = categorySeq.map { category =>
+        JsValueWritesCategoryList(
+          category.id.toString,
+          category.v.name,
+        )
+      }
+      Ok(Json.toJson(list))
+    }
+  }
+
+  /**
+   * 作成処理
+   */
+  def addApi() = Action async {implicit request =>
+    val jsonToDo = request.body.asJson.get.validate[JsValueReadsToDoAdd].get
+    
+    // 登録が完了したら一覧画面へリダイレクトする
+    val todoWithNoId = new ToDo(
+      id          = None,
+      categoryId  = ToDoCategory.Id(jsonToDo.category.toLong),
+      title       = jsonToDo.title,
+      body        = jsonToDo.body,
+      status      = ToDoStatus.TODO,
+    ).toWithNoId
+    for {
+      _ <- ToDoRepository.add(todoWithNoId)
+    } yield {
+      Ok(Json.toJson(JsValueWritesApiResult(isSuccess = true)))
     }
   }
 }

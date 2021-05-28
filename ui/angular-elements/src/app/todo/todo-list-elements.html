@@ -1,50 +1,44 @@
-<p class="custom">{{ displayText }}</p>
 
 <div class="content">
-  <p class="flash">{{ flash }}</p>
+  <p class="flash">{{flash}}</p>
+  <p class="error">{{error}}</p>
   <div class="todoContainer">
-    <div class="todo">
-      <p class="title">タイトル</p>
+    <div class="todo__title">
+      タイトル
     </div>
-    <div class="todo">
-      <p class="body">本文</p>
+    <div class="todo__body">
+      本文
     </div>
-    <div class="todo">
-      <p class="status">ステータス</p>
+    <div class="todo__status">
+      ステータス
     </div>
-    <div class="todo">
-      <p class="categoryName">カテゴリ</p>
-    </div>
-    <div class="todo">
-      <p class="edit"></p>
+    <div class="todo__category">
+      カテゴリ
     </div>
   </div>
 
-  <div class="todoContainer">
-    <div class="todo">
-      <p class="title">{{ title }}</p>
+  <div class="todoContainer" *ngFor="let todo of todos">
+    <div class="todo__title">
+      {{todo.title}}
     </div>
-    <div class="todo">
-      <p class="body">{{ body }}</p>
+    <div class="todo__body">
+      {{todo.body}}
     </div>
-    <div class="todo">
-      <p class="status">{{ status }}</p>
+    <div class="todo__status">
+      {{todo.status}}
     </div>
-    <div class="todo">
-      <p class="categoryName">{{ categoryColor }}</p>
+    <div class="todo__category  {{todo.categoryColor}}">
+      {{todo.categoryName}}
     </div>
-    <div class="todo">
-      <p class="side">
-        <a class="todo_icon"
-           href={{editUrl}}>
-          <i class="far fa-edit"></i>
-        </a>
-      </p>
+    <div class="todo__edit">
+      <a class="todo_icon"
+         href={{todo.editUrl}}>
+        <i class="far fa-edit"></i>
+      </a>
     </div>
-    <div class="todo">
-      <p class="side">
-        <i class="far fa-trash-alt delete"></i>
-      </p>
+    <div class="todo__delete">
+      <input type="hidden" value="{{todo.id}}" name="id">
+      <i class="far fa-trash-alt delete" (click)="onClickDelete(todo.id)"></i>
     </div>
   </div>
 

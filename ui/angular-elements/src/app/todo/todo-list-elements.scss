@@ -2,4 +2,74 @@
   .custom {
     color: red;
   }
+
+  .content {
+    margin: 10px;
+
+    p {
+      &.flash{
+        color     : #0000ff;
+        font-size : 18px;
+      }
+
+      &.error{
+        color     : #ff0000;
+        font-size : 18px;
+      }
+    }
+
+    div {
+      &.todoContainer {
+        display : flex;
+        height  : 30px;
+
+        .todo__title {
+          width           : 150px;
+          overflow        : hidden;
+          text-overflow   : ellipsis;
+          white-space     : nowrap;
+        }
+
+        .todo__body {
+          width           : 200px;
+          overflow        : hidden;
+          text-overflow   : ellipsis;
+          white-space     : nowrap;
+        }
+
+        .todo__status {
+          width: 80px;
+        }
+
+        .todo__category {
+          width: 130px;
+
+          &.red {
+            color: red;
+          }
+          &.green {
+            color: green;
+          }
+          &.blue {
+            color: blue;
+          }
+          &.yellow {
+            color: yellow;
+          }
+        }
+
+        .todo__edit {
+          width: 40px;
+          text-align: center;
+          padding: 2px;
+        }
+
+        .todo__delete {
+          width: 40px;
+          text-align: center;
+          padding: 2px;
+        }
+      }
+    }
+  }
 }

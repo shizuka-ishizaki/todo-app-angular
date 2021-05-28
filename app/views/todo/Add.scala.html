@@ -11,9 +11,13 @@
 @(vv: model.ViewValueToDoAdd)(implicit requestHeader: RequestHeader, messagesPrivider: MessagesProvider)
 @implicitField = @{ FieldConstructor(FieldConstructorTemplate.f) }
 @common.Default(vv){
+  <todo-add-elements>
+  </todo-add-elements>
+@* <hr>
   @form(action = controllers.todo.routes.ToDoController.add()) {
+*@    
     @* CSRFトークンの生成ヘルパーを呼び出している。これでいい感じにトークンが用意されます。 *@
-    @CSRF.formField
+@*    @CSRF.formField
     <div class="form">
       <div class="form__item">
         <div class="form__item-title">タイトル</div>
@@ -40,5 +44,6 @@
         <input type="hidden" value="@ToDoStatus.TODO.code.toString" name="status">
       </div>
     </div>
-  }
+  } 
+*@
 }

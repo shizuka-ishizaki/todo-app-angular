@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "yarn run watch:pug & ng serve --host=0.0.0.0 --port=5555",
+    "start": "ng serve --open --proxy-config=src/proxy.conf.json --host=0.0.0.0 --port=5555",
     "build": "ng build",
     "build:elements": "ng build --prod --output-hashing=none",
     "watch": "ng build --watch --configuration development",
